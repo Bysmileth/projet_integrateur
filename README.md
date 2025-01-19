@@ -17,3 +17,5 @@ Affiche les préfixes IPv4 et IPv6 ainsi que leurs masques pour l'interface spé
 ./ifshow -a
 
 Liste toutes les interfaces réseau disponibles avec leurs adresses IPv4/IPv6 et masques.
+
+Compilé pour système 32 bits
