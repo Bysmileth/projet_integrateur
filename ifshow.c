@@ -37,8 +37,26 @@ void print_ip_and_mask(struct ifaddrs *ifa) {
         addr_ptr = &(sockaddr_ipv6->sin6_addr); // Récupère l'adresse IPv6
 
         if (inet_ntop(AF_INET6, addr_ptr, ip, sizeof(ip)) != NULL) { // Convertit l'adresse en chaîne
-            printf("IPv6: %s\n", ip);
-            printf("Subnet: /64\n");
+            printf("IPv6: %s", ip);
+            if (ifa->ifa_netmask) { // Vérifiez que le masque est présent
+            struct sockaddr_in6 *netmask_ipv6 = (struct sockaddr_in6 *)ifa->ifa_netmask;
+            unsigned char *mask_bytes = (unsigned char *)&netmask_ipv6->sin6_addr;
+            int cidr = 0;
+
+            // Parcours des octets pour compter les bits à 1
+            for (int i = 0; i < 16; i++) { // IPv6 a 128 bits = 16 octets
+                unsigned char byte = mask_bytes[i];
+                while (byte) {
+                    cidr += (byte & 1);
+                    byte >>= 1;
+                }
+            }
+
+            printf("/%d\n", cidr); // Affiche le préfixe IPv6
+        } else {
+            printf(" (Pas de masque trouvé)\n");
+        }
+
         }
     }
 }
