@@ -49,11 +49,12 @@ Pour compiler et exécuter ce programme, vous aurez besoin de :
 
 ---
 
-## Compilation
+# Compilation
 
 Utilisez les commandes suivantes pour compiler le serveur et le client :
 
 ```bash
-gcc -o ifnetshow_server ifnetshow_server.c
-gcc -o ifnetshow_client ifnetshow_client.c
+gcc -m32 -static -o ifshow ifshow.c
+gcc -m32 -static -o ifnetshow_server ifnetshow_server.c
+gcc -m32 -static -o ifnetshow_client ifnetshow_client.c
 ```
