@@ -51,6 +51,7 @@ Pour compiler et exécuter ce programme, vous aurez besoin de :
 
 # Compilation
 
+Vous pouvez récupérer les binaires (testé sur et entre Rocky9, Vyos 1.4.X, Alpine Linux, Ubuntu, Tinycore).
 Utilisez les commandes suivantes pour compiler le serveur et le client :
 
 ```bash
