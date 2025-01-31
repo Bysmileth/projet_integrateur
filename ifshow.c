@@ -7,15 +7,19 @@
 #include <sys/socket.h> // Pour les sockets
 #include <net/if.h> // Pour les interfaces réseau
 
+
 // Fonction pour afficher l'adresse IP et le masque
 void print_ip_and_mask(struct ifaddrs *ifa) {
     char ip[INET6_ADDRSTRLEN]; // Stocke l'adresse IP sous forme de chaîne
     void *addr_ptr = NULL; // Pointeur vers l'adresse IP
     int family = ifa->ifa_addr->sa_family; // Détermine si IPv4 ou IPv6
 
+    
     if (family == AF_INET) { // Si l'adresse IPv4
         struct sockaddr_in *sockaddr_ipv4 = (struct sockaddr_in *)ifa->ifa_addr;
         addr_ptr = &(sockaddr_ipv4->sin_addr); // Recupere l'adresse IPv4
+
+        printf("Interface: %s\n", ifa->ifa_name); // Affiche le nom de l'interface
 
         if (inet_ntop(AF_INET, addr_ptr, ip, sizeof(ip)) != NULL) { // Convertit l'adresse en chaîne
             printf("IPv4: %s", ip);
@@ -35,6 +39,9 @@ void print_ip_and_mask(struct ifaddrs *ifa) {
     } else if (family == AF_INET6) { // Si l'adresse est IPv6
         struct sockaddr_in6 *sockaddr_ipv6 = (struct sockaddr_in6 *)ifa->ifa_addr;
         addr_ptr = &(sockaddr_ipv6->sin6_addr); // Récupère l'adresse IPv6
+
+        printf("Interface: %s\n", ifa->ifa_name); // Affiche le nom de l'interface
+
 
         if (inet_ntop(AF_INET6, addr_ptr, ip, sizeof(ip)) != NULL) { // Convertit l'adresse en chaîne
             printf("IPv6: %s", ip);
@@ -70,12 +77,13 @@ void show_interface(const char *ifname) {
         exit(EXIT_FAILURE); // Quitte le programme
     }
 
+    // printf("Interface: %s\n", ifa->ifa_name); // Affiche le nom de l'interface
+
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) { // Parcourt toutes les interfaces
-        if (ifa->ifa_addr == NULL || strcmp(ifa->ifa_name, ifname) != 0) { // Vérifie si c'est l'interface recherchée
+        if (ifa->ifa_addr == NULL) { // Vérifie si c'est l'interface recherchée
             continue; // Passe à l'interface suivante
         }
 
-        printf("Interface: %s\n", ifa->ifa_name); // Affiche le nom de l'interface
         print_ip_and_mask(ifa); // Affiche adresses et masques
     }
 
@@ -96,7 +104,6 @@ void show_all_interfaces() {
             continue; // Passe à la suivante
         }
 
-        printf("Interface: %s\n", ifa->ifa_name); // Affiche le nom de l'interface
         print_ip_and_mask(ifa); // Affiche les adresses et masques associés
     }
 
