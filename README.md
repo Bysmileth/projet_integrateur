@@ -4,7 +4,7 @@ ifshow est un programme en C qui affiche les informations des interfaces réseau
 
 Le programme accepte deux options principales :
 
-**1. Afficher une interface réseau spécifique**
+**Afficher une interface réseau spécifique**
 
 ```bash
 ./ifshow -i ethX
@@ -13,7 +13,7 @@ ethX : Nom de l'interface (par exemple, eth0).
 
 Affiche les préfixes IPv4 et IPv6 ainsi que leurs masques pour l'interface spécifiée.
 
-**2. Afficher toutes les interfaces réseau**
+**Afficher toutes les interfaces réseau**
 
 ```bash
 ./ifshow -a
@@ -34,9 +34,21 @@ Ce projet permet d'exposer les adresses IP d'un serveur via un programme client.
   - Traite les commandes du client pour afficher soit toutes les interfaces, soit une interface spécifique.
   - Envoie les informations réseau au client.
 
+```bash
+./ifnetshow_server &
+```
+
+
 - **Client (`ifnetshow_client`)** :
   - Envoie une commande au serveur pour obtenir les informations réseau.
   - Affiche les informations réseau reçues dans le terminal du client.
+
+```bash
+./ifnetshow_client -n 127.0.0.1 -a 
+./ifnetshow_server -n 127.0.0.1 -i eth0
+
+```
+
 
 ---
 
